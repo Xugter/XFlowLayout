@@ -1,6 +1,7 @@
 package com.xugter.xflowlayout;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ public class XFlowLayout extends ViewGroup {
 
     public XFlowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.XFlowLayout, defStyleAttr, 0);
+        maxLine = typedArray.getInteger(R.styleable.XFlowLayout_max_line, -1);
         mObserver = new XFlowLayoutDataObserver();
     }
 

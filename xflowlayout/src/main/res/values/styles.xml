@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="XFlowLayout">
+        <attr name="max_line" format="integer" />
+    </declare-styleable>
+</resources>
