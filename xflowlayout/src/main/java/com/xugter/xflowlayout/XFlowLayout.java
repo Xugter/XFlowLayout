@@ -6,6 +6,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class XFlowLayout extends ViewGroup {
 
     private ClickListener clickListener;
@@ -147,14 +150,15 @@ public class XFlowLayout extends ViewGroup {
 
         public abstract View getItemViewByPos(int pos);
 
-        private XFlowLayoutDataObserver observer;
+        private List<XFlowLayoutDataObserver> observers = new ArrayList<>();
+
 
         public void registerDataObserver(XFlowLayoutDataObserver observer) {
-            this.observer = observer;
+            observers.add(observer);
         }
 
         public void notifyDataChanged() {
-            if (observer != null) {
+            for (XFlowLayoutDataObserver observer : observers) {
                 observer.onChanged();
             }
         }
