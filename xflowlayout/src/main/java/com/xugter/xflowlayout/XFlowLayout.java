@@ -153,7 +153,7 @@ public class XFlowLayout extends ViewGroup {
     }
 
     private class XFlowLayoutDataObserver {
-        public void onChanged() {
+        void onChanged() {
             XFlowLayout.this.requestLayout();
         }
     }
@@ -166,7 +166,7 @@ public class XFlowLayout extends ViewGroup {
 
         private List<XFlowLayoutDataObserver> observers = new ArrayList<>();
 
-        public void registerDataObserver(XFlowLayoutDataObserver observer) {
+        void registerDataObserver(XFlowLayoutDataObserver observer) {
             observers.add(observer);
         }
 
