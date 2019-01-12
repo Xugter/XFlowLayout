@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         xFlowLayout.setClickListener(new XFlowLayout.ClickListener() {
             @Override
             public void onClickOnPos(int pos) {
-                Log.i("FlowLayout", "============Item " + pos + " click");
+                Log.i("XFlowLayout", "============Item " + pos + " click");
             }
         });
     }
