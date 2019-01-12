@@ -36,6 +36,6 @@ publish {
     groupId = 'com.xugter'
     artifactId = 'xflowlayout'
     publishVersion = '1.0.0'
-    desc = 'a lib to help android developer to get notch info for different rom'
-    website = 'https://github.com/Xugter/XScreenFit'
+    desc = 'a lib design for flowlayout'
+    website = 'https://github.com/Xugter/XFlowLayout'
 }
