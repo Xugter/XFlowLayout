@@ -3,7 +3,6 @@ package com.xugter.xflowlayoutsample;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +30,10 @@ public class MainActivity extends AppCompatActivity {
         xFlowLayout = findViewById(R.id.flow_layout);
         adapter = new TagAdapter();
         xFlowLayout.setAdapter(adapter);
-        xFlowLayout.setCenterHorizontal(false);
         initData();
         adapter.setContent(content);
 //        xFlowLayout.setMaxLine(3);
-        xFlowLayout.setClickListener(new XFlowLayout.ClickListener() {
-            @Override
-            public void onClickOnPos(int pos) {
-                Log.i("XFlowLayout", "============Item " + pos + " click");
-            }
-        });
+//        xFlowLayout.setCenterHorizontal(true);
     }
 
     private void initData() {

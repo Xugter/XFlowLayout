@@ -11,9 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class XFlowLayout extends ViewGroup {
-
-    private ClickListener clickListener;
-
     private int maxLine = -1;
 
     private Adapter adapter;
@@ -81,16 +78,6 @@ public class XFlowLayout extends ViewGroup {
                 }
                 currentXPos = currentXPos + childWidth;
             }
-
-            if (clickListener != null) {
-                final int finalI = i;
-                child.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        clickListener.onClickOnPos(finalI);
-                    }
-                });
-            }
         }
     }
 
@@ -152,10 +139,6 @@ public class XFlowLayout extends ViewGroup {
         setMeasuredDimension(widthSize, (heightMode == MeasureSpec.EXACTLY) ? heightSize : currentYPos + getPaddingBottom());
     }
 
-    public void setClickListener(ClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
     public void setMaxLine(int maxLine) {
         this.maxLine = maxLine;
     }
@@ -192,9 +175,5 @@ public class XFlowLayout extends ViewGroup {
                 observer.onChanged();
             }
         }
-    }
-
-    public interface ClickListener {
-        void onClickOnPos(int pos);
     }
 }
