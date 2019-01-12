@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -76,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setImageResource(R.mipmap.ic_launcher);
                 imageView.setLayoutParams(layoutParams);
                 return imageView;
+            }
+
+            if (pos % 7 == 0) {
+                LayoutInflater layoutInflater = MainActivity.this.getLayoutInflater();
+                View view = layoutInflater.inflate(R.layout.item_sample, null);
+                view.setLayoutParams(layoutParams);
+                return view;
             }
 
             TextView tv = new TextView(MainActivity.this);
