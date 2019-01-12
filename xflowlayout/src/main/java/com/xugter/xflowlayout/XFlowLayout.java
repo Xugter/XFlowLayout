@@ -28,6 +28,7 @@ public class XFlowLayout extends ViewGroup {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.XFlowLayout, defStyleAttr, 0);
         maxLine = typedArray.getInteger(R.styleable.XFlowLayout_max_line, -1);
+        typedArray.recycle();
         mObserver = new XFlowLayoutDataObserver();
     }
 
