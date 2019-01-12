@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         xFlowLayout = findViewById(R.id.flow_layout);
         adapter = new TagAdapter();
         xFlowLayout.setAdapter(adapter);
+        xFlowLayout.setCenterHorizontal(false);
         initData();
         adapter.setContent(content);
 //        xFlowLayout.setMaxLine(3);

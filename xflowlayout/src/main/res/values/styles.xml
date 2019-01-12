@@ -1,5 +1,6 @@
 <resources>
     <declare-styleable name="XFlowLayout">
         <attr name="max_line" format="integer" />
+        <attr name="center_horizontal" format="boolean" />
     </declare-styleable>
 </resources>

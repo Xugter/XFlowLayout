@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class XFlowLayout extends ViewGroup {
@@ -18,6 +19,10 @@ public class XFlowLayout extends ViewGroup {
     private Adapter adapter;
 
     private final XFlowLayoutDataObserver mObserver;
+
+    private HashMap<Integer, Integer> lineWidthInfo = new HashMap<>();
+
+    private boolean centerHorizontal = false;
 
     public XFlowLayout(Context context) {
         this(context, null);
@@ -31,6 +36,7 @@ public class XFlowLayout extends ViewGroup {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.XFlowLayout, defStyleAttr, 0);
         maxLine = typedArray.getInteger(R.styleable.XFlowLayout_max_line, -1);
+        centerHorizontal = typedArray.getBoolean(R.styleable.XFlowLayout_center_horizontal, false);
         typedArray.recycle();
         mObserver = new XFlowLayoutDataObserver();
     }
@@ -42,12 +48,18 @@ public class XFlowLayout extends ViewGroup {
         int currentXPos = getPaddingLeft();
         int currentYPos = getPaddingTop();
 
+        int currentLine = 0;
+
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
             int childWidth = child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin;
             int childHeight = child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin;
             if (childWidth + currentXPos <= getWidth() - getPaddingLeft() - getPaddingRight()) {
+                if (currentLine == 0 && centerHorizontal) {
+                    currentLine++;
+                    currentXPos = (getWidth() - getPaddingLeft() - getPaddingRight() - lineWidthInfo.get(currentLine)) / 2 + getPaddingLeft();
+                }
                 child.layout(currentXPos + lp.leftMargin, currentYPos + lp.topMargin, currentXPos + lp.leftMargin + child.getMeasuredWidth(), currentYPos + lp.topMargin + child.getMeasuredHeight());
                 currentXPos = currentXPos + childWidth;
                 if (childHeight > currentLineMaxHeight) {
@@ -56,12 +68,18 @@ public class XFlowLayout extends ViewGroup {
             } else {
                 currentYPos = currentYPos + currentLineMaxHeight;
                 currentLineMaxHeight = childHeight;
+                currentLine++;
+                if (centerHorizontal) {
+                    currentXPos = (getWidth() - getPaddingLeft() - getPaddingRight() - lineWidthInfo.get(currentLine)) / 2 + getPaddingLeft();
+                } else {
+                    currentXPos = getPaddingLeft();
+                }
                 if (childWidth > getWidth() - getPaddingLeft() - getPaddingRight()) {
                     child.layout(getPaddingLeft() + lp.leftMargin, currentYPos + lp.topMargin, getWidth() - getPaddingRight() - lp.rightMargin, currentYPos + lp.topMargin + child.getMeasuredHeight());
                 } else {
-                    child.layout(getPaddingLeft() + lp.leftMargin, currentYPos + lp.topMargin, getPaddingLeft() + child.getMeasuredWidth() + lp.leftMargin, currentYPos + lp.topMargin + child.getMeasuredHeight());
+                    child.layout(currentXPos + lp.leftMargin, currentYPos + lp.topMargin, currentXPos + child.getMeasuredWidth() + lp.leftMargin, currentYPos + lp.topMargin + child.getMeasuredHeight());
                 }
-                currentXPos = getPaddingLeft() + childWidth;
+                currentXPos = currentXPos + childWidth;
             }
 
             if (clickListener != null) {
@@ -95,6 +113,8 @@ public class XFlowLayout extends ViewGroup {
 
         removeAllViews();
 
+        int currentWidth = 0;
+
         for (int i = 0; i < adapter.getItemCount(); i++) {
             View child = adapter.getItemViewByPos(i);
             measureChild(child, widthMeasureSpec, heightMeasureSpec);
@@ -109,6 +129,7 @@ public class XFlowLayout extends ViewGroup {
                 if (childHeight > currentLineMaxHeight) {
                     currentLineMaxHeight = childHeight;
                 }
+                currentWidth += childWidth;
             } else {
                 if ((maxLine >= 1 && lineNum >= maxLine) || (heightMode == MeasureSpec.EXACTLY && (getPaddingTop() + getPaddingBottom() + lineNum * childHeight) > heightSize)) {
                     break;
@@ -116,11 +137,18 @@ public class XFlowLayout extends ViewGroup {
                 currentYPos = currentYPos + currentLineMaxHeight;
                 currentLineMaxHeight = childHeight;
                 currentXPos = getPaddingLeft() + childWidth;
+                if (centerHorizontal) {
+                    lineWidthInfo.put(lineNum, currentWidth);
+                }
+                currentWidth = childWidth;
                 lineNum++;
             }
             addView(child);
         }
         currentYPos = currentYPos + currentLineMaxHeight;
+        if (centerHorizontal) {
+            lineWidthInfo.put(lineNum, currentWidth);
+        }
         setMeasuredDimension(widthSize, (heightMode == MeasureSpec.EXACTLY) ? heightSize : currentYPos + getPaddingBottom());
     }
 
@@ -132,10 +160,13 @@ public class XFlowLayout extends ViewGroup {
         this.maxLine = maxLine;
     }
 
+    public void setCenterHorizontal(boolean enable) {
+        centerHorizontal = enable;
+    }
+
     public void setAdapter(Adapter adapter) {
         this.adapter = adapter;
         this.adapter.registerDataObserver(mObserver);
-
     }
 
     private class XFlowLayoutDataObserver {
@@ -151,7 +182,6 @@ public class XFlowLayout extends ViewGroup {
         public abstract View getItemViewByPos(int pos);
 
         private List<XFlowLayoutDataObserver> observers = new ArrayList<>();
-
 
         public void registerDataObserver(XFlowLayoutDataObserver observer) {
             observers.add(observer);
