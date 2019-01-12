@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 28
@@ -26,4 +27,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+publish {
+    userOrg = properties.getProperty("bintray.user")
+    groupId = 'com.xugter'
+    artifactId = 'xflowlayout'
+    publishVersion = '1.0.0'
+    desc = 'a lib to help android developer to get notch info for different rom'
+    website = 'https://github.com/Xugter/XScreenFit'
 }
