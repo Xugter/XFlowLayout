@@ -3,11 +3,11 @@ package com.xugter.xflowlayout;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class XFlowLayout extends ViewGroup {
@@ -17,7 +17,7 @@ public class XFlowLayout extends ViewGroup {
 
     private final XFlowLayoutDataObserver mObserver;
 
-    private HashMap<Integer, Integer> lineWidthInfo = new HashMap<>();
+    private SparseIntArray lineWidthInfo = new SparseIntArray();
 
     private boolean centerHorizontal = false;
 
@@ -125,7 +125,7 @@ public class XFlowLayout extends ViewGroup {
                 currentLineMaxHeight = childHeight;
                 currentXPos = getPaddingLeft() + childWidth;
                 if (centerHorizontal) {
-                    lineWidthInfo.put(lineNum, currentWidth);
+                    lineWidthInfo.append(lineNum, currentWidth);
                 }
                 currentWidth = childWidth;
                 lineNum++;
@@ -134,7 +134,7 @@ public class XFlowLayout extends ViewGroup {
         }
         currentYPos = currentYPos + currentLineMaxHeight;
         if (centerHorizontal) {
-            lineWidthInfo.put(lineNum, currentWidth);
+            lineWidthInfo.append(lineNum, currentWidth);
         }
         setMeasuredDimension(widthSize, (heightMode == MeasureSpec.EXACTLY) ? heightSize : currentYPos + getPaddingBottom());
     }
