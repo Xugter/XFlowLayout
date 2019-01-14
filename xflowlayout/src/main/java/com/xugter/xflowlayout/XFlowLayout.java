@@ -139,14 +139,29 @@ public class XFlowLayout extends ViewGroup {
         setMeasuredDimension(widthSize, (heightMode == MeasureSpec.EXACTLY) ? heightSize : currentYPos + getPaddingBottom());
     }
 
+    /**
+     * setup max line to show
+     *
+     * @param maxLine >1 works
+     */
     public void setMaxLine(int maxLine) {
         this.maxLine = maxLine;
     }
 
+    /**
+     * setup center horizontal
+     *
+     * @param enable true center horizontal, false left to right
+     */
     public void setCenterHorizontal(boolean enable) {
         centerHorizontal = enable;
     }
 
+    /**
+     * set adapter for xflowlayout to display
+     *
+     * @param adapter
+     */
     public void setAdapter(Adapter adapter) {
         this.adapter = adapter;
         this.adapter.registerDataObserver(mObserver);

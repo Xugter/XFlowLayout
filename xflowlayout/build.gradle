@@ -35,7 +35,7 @@ publish {
     userOrg = properties.getProperty("bintray.user")
     groupId = 'com.xugter'
     artifactId = 'xflowlayout'
-    publishVersion = '1.0.1'
+    publishVersion = '1.0.2'
     desc = 'a lib design for flowlayout'
     website = 'https://github.com/Xugter/XFlowLayout'
 }

@@ -16,7 +16,7 @@ Android流式布局，支持限制最大行数，每行内容居中显示
 
 ## gradle
 ```
-implementation 'com.xugter:xflowlayout:1.0.1'
+implementation 'com.xugter:xflowlayout:1.0.2'
 ```
 
 ## 使用步骤
