@@ -142,7 +142,7 @@ public class XFlowLayout extends ViewGroup {
     /**
      * setup max line to show
      *
-     * @param maxLine >1 works
+     * @param maxLine must bigger than 0
      */
     public void setMaxLine(int maxLine) {
         this.maxLine = maxLine;
